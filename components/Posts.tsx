@@ -6,18 +6,28 @@ import { IoStatsChartOutline } from "react-icons/io5";
 import { CiBookmark } from "react-icons/ci";
 import { RiShare2Fill } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
+import { Tweet } from '@/interface/Tweets';
 
-export default function Posts() {
+interface PostsProps {
+  tweet: Tweet;
+}
+
+// export default function Posts({tweet}) {
+  const Posts: React.FC<PostsProps>  = ({tweet})=>{
   return (
     <div className='border-b-2 border-slate-500'>
         <div className='flex px-5'>
-        <img className='w-14 mt-5 h-14 object-cover rounded-full' src='https://pbs.twimg.com/profile_images/1761058966292119552/aqGsGdNE_400x400.jpg' alt='profile image' />
-          <p className='mt-5 ml-5 text-2xl'>Darshan</p>
-          <p className='mt-5 ml-1 text-2xl'>@Darshan2002</p>
-          <BsThreeDots className='text-3xl mt-5 ml-auto hover:bg-blue-300 hover:rounded-full'></BsThreeDots>
+        <img className='w-14 mt-5 h-14 object-cover rounded-full' src={tweet.profileImageURL ? tweet.profileImageURL : ""} alt='profile image' />
+          <p className='mt-5 ml-5 text-xl'>{tweet.firstName}</p>
+          <p className='mt-5 ml-1 text-xl'>@{tweet.email.split('@')[0]}</p>
+          <p className='mt-5 ml-1 text-xl'> . {tweet.postedAt.substring(0, 16)}</p>
+          <BsThreeDots className='text-2xl mt-5 ml-auto hover:bg-blue-300 hover:rounded-full'></BsThreeDots>
           </div>
         <div className='ml-24 mr-5'>
-        <p className='text-2xl pt'>content  in the new line</p>
+        <p className='text-xl'>{tweet.content}</p>
+
+        <img className='w-full mt-5 h-full object-cover rounded-3xl' src={tweet.image ? tweet.image[0].myFile : ''} alt='post image' />
+
         <div className='flex justify-between mt-4'>
           <div className='flex text-2xl'>
             <TbBrandMessenger className=' hover:bg-blue-300 rounded-full'></TbBrandMessenger>
@@ -48,3 +58,6 @@ export default function Posts() {
         </div>
   )
 }
+
+
+export default Posts;

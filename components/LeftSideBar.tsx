@@ -67,7 +67,7 @@ export default function LeftSideBar() {
       icon: <CgMoreO></CgMoreO>,
       link: '/',
     },
-  ],[]); 
+  ],[]);  
 
   return (
     <div className='flex-1 max-w-[450px] max-2xl:max-w-[90px]'>
