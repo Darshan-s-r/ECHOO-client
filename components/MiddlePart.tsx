@@ -37,7 +37,7 @@ export default function MiddlePart() {
   }, []);
 
   return (
-    <div className='flex-1 max-lg:min-w-[50%] border-x-2 border-slate-500 h-screen overflow-auto'>
+    <div className='flex-1 max-lg:min-w-[50%] border-x-2 border-custom-profile-bg h-screen overflow-y-scroll no-scrollbar'>
       <WritePost />
       {tweets.map((tweet: Tweet, index: number) => (
         <Posts key={index} tweet={tweet} />

@@ -77,13 +77,13 @@ export default function WritePost() {
   };
 
   return (
-    <div className=''>
-      <div className='flex border-b-2 border-slate-500'>
-        <button className='text-2xl flex-1 hover:bg-slate-400'>Foryou</button>
-        <button className='text-2xl flex-1 hover:bg-slate-400'>Following</button>
+    <div className='relative'>
+      <div className='sticky top-0 left-0 right-0 flex border-b-2 border-custom-profile-bg bg-black'>
+        <button className='text-2xl font-bold flex-1 hover:text-custom-grey'>For you</button>
+        <button className='text-2xl font-bold flex-1 hover:text-custom-grey active:underline'>Following</button>
         <button className='text-2xl p-5 hover:bg-slate-400'><IoSettingsOutline /></button>
       </div>
-      <div className='flex p-5 border-b-2 border-slate-500 w-full'> 
+      <div className='flex p-5 border-b-2 border-custom-profile-bg w-full'> 
         <img className='w-14 mr-4 mt-5 h-14 object-cover rounded-full' src='https://pbs.twimg.com/profile_images/1761058966292119552/aqGsGdNE_400x400.jpg' alt='profile image' />
         <form onSubmit={handleSubmit}>
         <textarea
@@ -92,7 +92,7 @@ export default function WritePost() {
           onChange={handleChange}
           placeholder='What is happening?'
           maxLength={280}
-          className='border-none text-2xl pl-5 pt-3 resize-none overflow-hidden bg-black w-full '  //resize-none overflow-hidden
+          className='border-none text-2xl pl-5 pt-3 resize-none overflow-y-scroll no-scrollbar bg-black w-full '  //resize-none overflow-hidden
           style={{ height: textareaHeight }}
         />
         <div className='flex'>

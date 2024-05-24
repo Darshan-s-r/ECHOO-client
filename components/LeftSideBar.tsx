@@ -77,7 +77,7 @@ export default function LeftSideBar() {
           <li key={index}>
             <Link className='flex justify-start items-center mx-7 mt-5 hover:bg-gray-600 rounded' href={item.link}>
               <span className=''>{item.icon}</span>
-            <samp className='hidden 2xl:block hover:bg-gray-600 rounded-full pl-5'>{item.title}</samp>
+            <samp className='tect-rgb(231, 233, 234) hidden 2xl:block hover:bg-gray-600 rounded-full pl-5'>{item.title}</samp>
             </Link>
             
             
