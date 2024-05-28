@@ -26,6 +26,7 @@ export default function GoogleSignInButton() {
       setUser(User);
       console.log("Response from server:", token , User);
       localStorage.setItem("twitter_cloan_token", token);
+      localStorage.setItem('User', JSON.stringify(User));
       router.push("/home");
     } catch (err) {
       console.error("Error from the server:", err);

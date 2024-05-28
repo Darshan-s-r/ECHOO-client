@@ -1,9 +1,11 @@
+import { ObjectId } from 'mongodb';
+
 interface Image {
   myFile: string;
 }
 
 export interface Tweet {
-  userId: string,
+  _id: string,
         firstName: string,
         email: string,
         profileImageURL: string,
