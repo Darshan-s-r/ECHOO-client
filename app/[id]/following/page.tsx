@@ -1,4 +1,3 @@
-'use client';
 import LeftSideBar from '@/components/LeftSideBar'
 import React, { useEffect } from 'react'
 import MiddlePart from './MiddlePart'

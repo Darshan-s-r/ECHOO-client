@@ -1,3 +1,4 @@
+import RightSide from '@/components/RightSide'
 import LeftSideBar from '../../components/LeftSideBar'
 import MiddlePart from '../../components/MiddlePart'
 export default function page() {
@@ -7,7 +8,7 @@ export default function page() {
   <LeftSideBar></LeftSideBar>
  <MiddlePart></MiddlePart>
   <div className=' flex-1 max-w-[530px] max-xl:hidden p-5'>
-    
+    <RightSide></RightSide>
   </div>
 </div> 
 

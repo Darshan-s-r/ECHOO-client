@@ -27,7 +27,7 @@ export default function MiddlePart({ id }: { id: string }) {
           console.log("token not found in local storage");
           throw new Error("You need to login to proceed");
         }
-        const response = await axios.get(`http://localhost:8080/followers/user?id=${id}`, {
+        const response = await axios.get(`http://localhost:8080/followers_you_know/users?id1=${user?.email}&id2=${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -37,17 +37,14 @@ export default function MiddlePart({ id }: { id: string }) {
           setUserNotFound(true);
           return;
         }
-        setFollowers(response.data.followersDetails);
-        setHisDetail(response.data.hisDetail);
+        setFollowers(response.data?.followersDetails);
+        setHisDetail(response.data?.hisDetail);
+        
       }
     } catch (error) {
       console.error("Error fetching user:", error);
     }
   }, [id]);
-
-  useEffect(() => {
-    fetchFollowers();
-  }, [fetchFollowers]);
 
   useEffect(() => {
     const localUser = localStorage.getItem('User');
@@ -56,6 +53,10 @@ export default function MiddlePart({ id }: { id: string }) {
       setUser(parsedLocalUser);
     }
   }, [setUser]);
+
+  useEffect(() => {
+    fetchFollowers();
+  }, [fetchFollowers]);
 
   if (userNotFound) {
     return (
@@ -81,9 +82,9 @@ export default function MiddlePart({ id }: { id: string }) {
         <div className='flex flex-row justify-between mx-20 text-xl text-custom-grey font-semibold my-5'>
         <Link href={`/${hisDetail?.email}/verified_followers`}><p className='active:underline hover:underline'>Verified Followers</p></Link>
        {
-        hisDetail?.email !== user?.email && <Link href={`/${hisDetail?.email}/followers_you_know`}><p className='active:underline hover:underline'>Followers you know</p></Link>
+        hisDetail?.email !== user?.email && <Link href={`/${hisDetail?.email}/followers_you_know`}><p className='font bold text-custom-white'>Followers you know</p></Link>
        }
-        <Link href={`/${hisDetail?.email}/followers`}><p className='text-custom-white font-bold' style={{ boxShadow: '0 5px 0 rgb(29, 155, 240)' }}>Followers</p></Link>
+        <Link href={`/${hisDetail?.email}/followers`}><p className='active:underline hover:underline'>Followers</p></Link>
         <Link href={`/${hisDetail?.email}/following`}><p className='active:underline hover:underline'>Following</p></Link>
         </div>
       </div>

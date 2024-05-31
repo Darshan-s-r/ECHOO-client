@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef, ReactEventHandler } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 import { SlPicture } from "react-icons/sl";
 import axios from 'axios';
+import { IUser } from '@/interface/User';
 
 interface FileState {
   myFile: string | null;
@@ -17,6 +18,16 @@ export default function WritePost() {
   const [textareaHeight, setTextareaHeight] = useState('auto');
   const [maxHeight, setMaxHeight] = useState(0);
   const [postImage, setPostImage] = useState<FileState>({myFile:""})
+  const [user, setUser] = useState<IUser |null>(null);
+
+  useEffect(() => {
+    const localUser = localStorage.getItem('User');
+    if (localUser) {
+      const parsedLocalUser = JSON.parse(localUser);
+      setUser(parsedLocalUser);
+    }
+  }, [setUser]);
+
   useEffect(() => {
     if (textareaRef.current) {
       const originalHeight = textareaRef.current.scrollHeight;
@@ -84,7 +95,7 @@ export default function WritePost() {
         <button className='text-2xl p-5 hover:text-custom-grey'><IoSettingsOutline /></button>
       </div>
       <div className='flex p-5 border-b-2 border-custom-profile-bg w-full'> 
-        <img className='w-14 mr-4 mt-5 h-14 object-cover rounded-full' src='https://pbs.twimg.com/profile_images/1761058966292119552/aqGsGdNE_400x400.jpg' alt='profile image' />
+        <img className='w-14 mr-4 mt-5 h-14 object-cover rounded-full' src={user?.profileImageURL} alt='profile image' />
         <form onSubmit={handleSubmit}>
         <textarea
           ref={textareaRef}

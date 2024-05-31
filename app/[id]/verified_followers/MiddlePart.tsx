@@ -18,6 +18,7 @@ export default function MiddlePart({ id }: { id: string }) {
   const { user, setUser } = useUserContext();
   const [userNotFound, setUserNotFound] = useState<boolean>(false);
 
+
   const fetchFollowers = useCallback(async () => {
     try {
       if (typeof window !== 'undefined') {
@@ -27,7 +28,7 @@ export default function MiddlePart({ id }: { id: string }) {
           console.log("token not found in local storage");
           throw new Error("You need to login to proceed");
         }
-        const response = await axios.get(`http://localhost:8080/followers/user?id=${id}`, {
+        const response = await axios.get(`http://localhost:8080/verified_followers/user?id=${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -79,14 +80,22 @@ export default function MiddlePart({ id }: { id: string }) {
           </div>
         </div>
         <div className='flex flex-row justify-between mx-20 text-xl text-custom-grey font-semibold my-5'>
-        <Link href={`/${hisDetail?.email}/verified_followers`}><p className='active:underline hover:underline'>Verified Followers</p></Link>
+        <Link href={`/${hisDetail?.email}/verified_followers`}><p className='text-custom-white font-bold' style={{ boxShadow: '0 5px 0 rgb(29, 155, 240)' }}>Verified Followers</p></Link>
        {
         hisDetail?.email !== user?.email && <Link href={`/${hisDetail?.email}/followers_you_know`}><p className='active:underline hover:underline'>Followers you know</p></Link>
        }
-        <Link href={`/${hisDetail?.email}/followers`}><p className='text-custom-white font-bold' style={{ boxShadow: '0 5px 0 rgb(29, 155, 240)' }}>Followers</p></Link>
+        <Link href={`/${hisDetail?.email}/followers`}><p className='active:underline hover:underline'>Followers</p></Link>
         <Link href={`/${hisDetail?.email}/following`}><p className='active:underline hover:underline'>Following</p></Link>
         </div>
       </div>
+    {
+      followers?.length < 1 && (
+        <div>
+        <p className='font-bold text-custom-white text-3xl mx-10 mt-10'>You don’t have any verified followers yet</p>
+        <p className='text-custom-grey text-xl mx-10'>When a verified account follows you, you’ll see them here</p>
+        </div>
+      )
+    }
       {followers?.map((follow, index) => (
         <Card key={index} follow={follow} />
       ))}

@@ -16,6 +16,7 @@ export default function MiddlePart({ id }: { id: string }) {
   const [following, setFollowing] = useState<follower[]>([]);
   const [hisDetail, setHisDetail] = useState<HisDetail | null>(null);
   const { user, setUser } = useUserContext();
+  const [userNotFound, setUserNotFound] = useState<boolean>(false);
 
   const fetchFollowing = useCallback(async () => {
     try {
@@ -32,6 +33,10 @@ export default function MiddlePart({ id }: { id: string }) {
             'Content-Type': 'application/json'
           }
         });
+        if (response.data.message === "user not found") {
+          setUserNotFound(true);
+          return;
+        }
         setFollowing(response.data.followingDetails);
         setHisDetail(response.data.hisDetail);
         console.log(response.data)
@@ -52,6 +57,12 @@ export default function MiddlePart({ id }: { id: string }) {
       setUser(parsedLocalUser);
     }
   }, [setUser]);
+
+  if (userNotFound) {
+    return (
+      <div className='font-bold text-2xl text-custom-white'>User not found</div>
+    );
+  }
 
   return (
     <div className='relative flex-1 max-lg:min-w-[50%] border-x-2 border-custom-profile-bg h-screen overflow-y-scroll no-scrollbar'>
@@ -78,7 +89,7 @@ export default function MiddlePart({ id }: { id: string }) {
         </div>
       </div>
       {following?.map((follow, index) => (
-        <Card key={index} id={id} follow={follow} />
+        <Card key={index} follow={follow} />
       ))}
     </div>
   );

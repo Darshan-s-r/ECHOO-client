@@ -4,7 +4,7 @@ import { follower } from '@/interface/Followers';
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 
-export default function Card({ id, follow }: { id: string, follow: follower }) {
+export default function Card({ follow }: {follow: follower }) {
   const [URfollowing, setURfollowing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { user, setUser } = useUserContext();
@@ -19,7 +19,7 @@ export default function Card({ id, follow }: { id: string, follow: follower }) {
         setUser(parsedLocalUser);
       }
     }
-  }, [follow.email, setUser]);
+  }, [follow?.email, setUser]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -63,24 +63,24 @@ export default function Card({ id, follow }: { id: string, follow: follower }) {
     } catch (err) {
       console.log(err);
     }
-  }, [user, follow.email, setUser]);
+  }, [user, follow?.email, setUser]);
 
   return (
     <>
      <div className='flex px-5'>
-           <img className='w-14 mt-5 h-14 object-cover rounded-full' src={follow.profileImageURL} alt='' />
-           <p className='mt-5 ml-5 text-xl text-custom-white font-bold hover:underline'>{follow.firstName}</p>
+           <img className='w-14 mt-5 h-14 object-cover rounded-full' src={follow?.profileImageURL} alt='' />
+           <p className='mt-5 ml-5 text-xl text-custom-white font-bold hover:underline'>{follow?.firstName}</p>
            </div>
            <div className='flex -mt-8 ml-16'>
-           <p className='ml-8 text-xl text-custom-grey'>@{follow.email.split('@')[0]}</p>
+           <p className='ml-8 text-xl text-custom-grey'>@{follow?.email?.split('@')[0]}</p>
            {
-        follow.email !== user?.email && (
+        follow?.email !== user?.email && (
           URfollowing ? (
             <button 
               onClick={handleUnfollow} 
               onMouseEnter={handleMouseEnter} 
               onMouseLeave={handleMouseLeave} 
-              className={`ml-auto mr-5 -mt-4 text-custom-grey border px-4 py-2 border-custom-profile-bg text-xl rounded-3xl ${isHovered ? 'bg-blackish-red' : ''}`}
+              className={`ml-auto mr-5 -mt-4 text-custom-grey border px-4 py-2 border-custom-profile-bg text-xl rounded-3xl ${isHovered ? 'bg-red-300' : ''}`}
             >
               {isHovered ? 'UnFollow' : 'Following'}
             </button>
@@ -96,7 +96,7 @@ export default function Card({ id, follow }: { id: string, follow: follower }) {
       }
         
            </div>
-           <p className='ml-24 text-xl text-custom-white mt-1 mr-5'>{follow.bio}</p>
+           <p className='ml-24 text-xl text-custom-white mt-1 mr-5'>{follow?.bio}</p>
            </>
   );
 }
