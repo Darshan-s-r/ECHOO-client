@@ -4,12 +4,13 @@ import { follower } from '@/interface/Followers';
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 
-export default function Card({ follow }: {follow: follower }) {
+export default function WhoTFcard({ follow }: {follow: follower }) {
   const [URfollowing, setURfollowing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const { user, setUser } = useUserContext();
+  const { user, setUser } = useUserContext()
 
   useEffect(() => {
+    console.log('follow.email', follow.email)
     const localUser = localStorage.getItem('User');
     if (localUser) {
       const parsedLocalUser = JSON.parse(localUser);
@@ -60,6 +61,38 @@ export default function Card({ follow }: {follow: follower }) {
     }
   }, [setUser]);
 
+  // const handleFollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
+  //   try {
+  //     const token = localStorage.getItem("twitter_cloan_token");
+  //     if (!token) {
+  //       throw new Error("you need to login to proceed");
+  //     }
+  //     const response = await axios.post("http://localhost:8080/follow",
+  //       { follower: user?.email, following: follow.email },
+  //       {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //     const { followers, following } = response.data;
+  //     setUser((prevUser) => ({
+  //       ...prevUser,
+  //       following: following,
+  //     }));
+
+  //     localStorage.setItem('User', JSON.stringify({
+  //       ...user,
+  //       following: following,
+  //     }));
+
+  //     setURfollowing(true);
+  //     console.log('response from /follow');
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, [setUser]);
+
   const handleFollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     try {
       const token = localStorage.getItem("twitter_cloan_token");
@@ -101,7 +134,6 @@ export default function Card({ follow }: {follow: follower }) {
            <div className='flex -mt-8 ml-16'>
            <p className='ml-8 text-xl text-custom-grey'>@{follow?.email?.split('@')[0]}</p>
            {
-        follow?.email !== user?.email && (
           URfollowing ? (
             <button 
               onClick={handleUnfollow} 
@@ -119,7 +151,7 @@ export default function Card({ follow }: {follow: follower }) {
               Follow
             </button>
           )
-        )
+        
       }
         
            </div>

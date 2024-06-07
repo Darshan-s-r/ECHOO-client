@@ -7,9 +7,8 @@ export default function page() {
 <div className='flex '>
   <LeftSideBar></LeftSideBar>
  <MiddlePart></MiddlePart>
-  <div className=' flex-1 max-w-[530px] max-xl:hidden p-5'>
     <RightSide></RightSide>
-  </div>
+
 </div> 
 
   )

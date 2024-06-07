@@ -24,6 +24,7 @@ export default function GoogleSignInButton() {
       const token = response.data.token;
       const User = response.data.user;
       setUser(User);
+ 
       console.log("Response from server:", token , User);
       localStorage.setItem("twitter_cloan_token", token);
       localStorage.setItem('User', JSON.stringify(User));
@@ -37,7 +38,7 @@ export default function GoogleSignInButton() {
   return (
 
   <div className='p-5  rounded-lg bg-slate-600'>
-    <h1 className='text-2xl'>New to twitter</h1>
+    <h1 className='text-2xl'>Log-In to echooooo</h1>
     <GoogleLogin onSuccess={handleLoginWithUser} />
      <p>{user?.email}</p>
   </div>

@@ -8,6 +8,7 @@ import Posts from '@/components/Posts';
 import { useUserContext } from '@/context/UserContext';
 import { IoLocationOutline } from "react-icons/io5";
 import { TiAttachmentOutline } from "react-icons/ti";
+import EditProfilePopup from '@/components/EditProfilePopUp';
 
 interface profileMenu {
   title: string,
@@ -21,6 +22,14 @@ export default function MiddlePart({ id }: { id: string }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [userNotFound, setUserNotFound] = useState<boolean>(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => setIsPopupOpen(true);
+  
+  const closePopup: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    setIsPopupOpen(false);
+  };
 
   const fetchUser = useCallback(async () => {
     try {
@@ -74,14 +83,38 @@ export default function MiddlePart({ id }: { id: string }) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  
+  const handleUnfollow = useCallback(async(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    try {
+      const token = localStorage.getItem("twitter_cloan_token");
+      if (!token) {
+        throw new Error("you need to login to proceed");
+      }
+      const response = await axios.post("http://localhost:8080/un_follow",
+        { follower: user?.email, following: profileUser?.email },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+      const { followers, following } = response.data;
+      setUser((prevUser) => ({
+        ...prevUser,
+        following: following,
+      }));
 
-  function handleEditProfile(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-    console.log('editProfile clicked');
-  }
+      localStorage.setItem('User', JSON.stringify({
+        ...user,
+        following: following,
+      }));
 
-  function handleUnfollow(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-    console.log('UnFollow clicked');
-  }
+      setIsFollowing(false);
+      console.log('response from /follow');
+    } catch (err) {
+      console.log(err);
+    }
+  }, [setUser]);
 
   const handleFollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     try {
@@ -148,12 +181,12 @@ export default function MiddlePart({ id }: { id: string }) {
         </div>
         <p className='ml-24 pl-1 -mt-2 mb-2 text-custom-grey'>{profileUser?.posts?.length} posts</p>
       </div>
-      <img className='h-64 w-full object-cover bg-custom-profile-bg' src={profileUser?.coverPhoto} alt=''></img>
+      <img className='h-64 w-full object-cover bg-custom-profile-bg border' src={profileUser?.coverPhoto} alt=''></img>
       <img className='object-cover bg-custom-profile-bg border-black border-4 rounded-full h-48 w-48 ml-5 -mt-24' src={profileUser?.profileImageURL}></img>
       <div className='flex flex-row justify-end'>
         {
-          hisProfile ? <button onClick={handleEditProfile} className='border border-custom-profile-bg font-bold text-xl px-4 py-2 rounded-3xl'>Edit profile</button> : (
-            isFollowing ? <button onClick={handleUnfollow} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={`border border-custom-profile-bg font-bold text-xl px-4 py-2 rounded-3xl ${isHovered ? 'bg-blackish-red' : ''}`}>{isHovered ? 'unFollow' : 'Following'}</button> :
+          hisProfile ? <button onClick={openPopup} className='border border-custom-profile-bg font-bold text-xl px-4 py-2 rounded-3xl'>Edit profile</button> : (
+            isFollowing ? <button onClick={handleUnfollow} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={`border border-custom-profile-bg font-bold text-xl px-4 py-2 rounded-3xl ${isHovered ? 'bg-custom-red-bg text-custom-red border border-custom-red-border' : ''}`}>{isHovered ? 'unFollow' : 'Following'}</button> :
               <button onClick={handleFollow}
                 className='border text-custom-profile-bg border-custom-profile-bg bg-custom-white text-lg px-4 py-2 rounded-3xl'>Follow</button>)
         }
@@ -188,6 +221,7 @@ export default function MiddlePart({ id }: { id: string }) {
             <Posts tweet={tweet} key={tweet.postId}></Posts>
           ))}
         </div>
+        <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup}></EditProfilePopup>
         </>)
       
     }
