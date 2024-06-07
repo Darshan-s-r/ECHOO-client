@@ -7,7 +7,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { SlPicture } from "react-icons/sl";
 import axios from 'axios';
 import { IUser } from '@/interface/User';
-
+import predict_toxicity from '@/mlModel/toxicity_model'
 interface FileState {
   myFile: string | null;
 }
@@ -62,14 +62,19 @@ export default function WritePost() {
             'Content-Type': 'application/json' 
           } 
     });
+    alert('content is clean')
     console.log("responce for post tweet",responce);
     }catch(err){
       console.log(err)
     }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
+    const isToxic:boolean = await predict_toxicity(text);
+    if(isToxic){
+      return alert('Toxic content detected You can not post this content')
+    }
     createPost(text, postImage);
     setText("");
     setPostImage({myFile:""})
