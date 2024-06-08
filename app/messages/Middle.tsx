@@ -83,7 +83,7 @@ async function fetchReceivers(){
     }
 
   return (
-    <div className='flex-1 max-xl:hidden border-x-2 border-custom-profile-bg h-screen overflow-y-scroll no-scrollbar'>
+    <div className='flex-1 max-lg:hidden border-x-2 border-custom-profile-bg h-screen overflow-y-scroll no-scrollbar'>
       <div className='sticky top-0 left-0 right-0 bg-black'>
       <p className='ml-4 mt-5 mb-8 text-custom-white font-bold text-2xl'>Messages</p>
         <div className='flex border border-custom-profile-bg bg-black  w-11/12 h-12 rounded-3xl text-lg ml-4 mb-3'>

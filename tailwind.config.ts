@@ -21,7 +21,8 @@ const config: Config = {
         'custom-red-bg' : 'rgb(32, 10, 12)',
         'custom-red-border' : 'rgb(82, 6, 10)',
         'custom-btn-hvr' : 'rgb(215, 219, 220)',
-        'custom-hover' : 'rgb(22, 24, 28)'
+        'custom-hover' : 'rgb(22, 24, 28)',
+        'custom-blue' : 'rgb(26, 140, 216)',
       }
     },
   },

@@ -122,7 +122,7 @@ export default function WritePost() {
         accept='.jpeg, .png, .jpg'
         onChange={handleFileUpload}
         />
-        <button type='submit' className='flex justify-end bg-blue-500 text-xl px-5 py-3 rounded-full ml-auto active:bg-cyan-500'>Post</button>
+        <button type='submit' className='flex justify-end bg-custom-blue text-xl px-5 py-3 rounded-full ml-auto active:bg-cyan-500'>Post</button>
         </div>
         
         </form>
