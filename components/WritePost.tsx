@@ -8,6 +8,7 @@ import { SlPicture } from "react-icons/sl";
 import axios from 'axios';
 import { IUser } from '@/interface/User';
 import predict_toxicity from '@/mlModel/toxicity_model'
+import Link from 'next/link';
 interface FileState {
   myFile: string | null;
 }
@@ -100,7 +101,9 @@ export default function WritePost() {
         <button className='text-2xl p-5 hover:text-custom-grey'><IoSettingsOutline /></button>
       </div>
       <div className='flex p-5 border-b-2 border-custom-profile-bg w-full'> 
+      <Link  href={`/${user?.email}`}>
         <img className='w-14 mr-4 mt-5 h-14 object-cover rounded-full' src={user?.profileImageURL} alt='profile image' />
+        </Link>
         <form onSubmit={handleSubmit}>
         <textarea
           ref={textareaRef}

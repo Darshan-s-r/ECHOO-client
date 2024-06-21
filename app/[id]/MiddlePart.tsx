@@ -9,6 +9,7 @@ import { useUserContext } from '@/context/UserContext';
 import { IoLocationOutline } from "react-icons/io5";
 import { TiAttachmentOutline } from "react-icons/ti";
 import EditProfilePopup from '@/components/EditProfilePopUp';
+import { Tweet } from '@/interface/Tweets';
 
 interface profileMenu {
   title: string,
@@ -217,8 +218,8 @@ export default function MiddlePart({ id }: { id: string }) {
           ))}
         </ul>
       </div>
-          {profileUser?.posts?.map((tweet) => (
-            <Posts tweet={tweet} key={tweet.postId}></Posts>
+          {profileUser?.posts?.map((tweet: Tweet, index: number) => (
+             <Posts key={index} Tweet={tweet} />
           ))}
         </div>
         <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup}></EditProfilePopup>

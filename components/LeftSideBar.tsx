@@ -1,4 +1,5 @@
-import React from 'react'
+'use client';
+import React, { useMemo } from 'react'
 import { BsTwitterX } from "react-icons/bs";
 import { FaHome } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
@@ -9,9 +10,7 @@ import { FaRegListAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
 import { FaPenNib } from "react-icons/fa6";
-import { useMemo } from 'react';
 import Link from 'next/link';
-
 
 export default function LeftSideBar() {
     
@@ -25,42 +24,42 @@ export default function LeftSideBar() {
     {
       title:"",
       icon: <BsTwitterX></BsTwitterX>,
-      link: '/',
+      link: '/home',
     },
     {
       title:"Home",
       icon: <FaHome></FaHome>,
-      link: '/',
+      link: '/home',
     },
-    {
-      title:"Explore",
-      icon: <FiSearch></FiSearch>,
-      link: '/',
-    },
-    {
-      title:"Notifications",
-      icon: <IoIosNotificationsOutline></IoIosNotificationsOutline>,
-      link: '/',
-    },
+    // {
+    //   title:"Explore",
+    //   icon: <FiSearch></FiSearch>,
+    //   link: '/',
+    // },
+    // {
+    //   title:"Notifications",
+    //   icon: <IoIosNotificationsOutline></IoIosNotificationsOutline>,
+    //   link: '/',
+    // },
     {
       title:"Messages",
       icon: <FiMessageSquare></FiMessageSquare>,
-      link: '/',
+      link: '/messages',
     },
-    {
-      title:"Grok",
-      icon: <TiMessageTyping></TiMessageTyping>,
-      link: '/',
-    },
-    {
-      title:"Lists",
-      icon: <FaRegListAlt></FaRegListAlt>,
-      link: '/',
-    },
+    // {
+    //   title:"Grok",
+    //   icon: <TiMessageTyping></TiMessageTyping>,
+    //   link: '/',
+    // },
+    // {
+    //   title:"Lists",
+    //   icon: <FaRegListAlt></FaRegListAlt>,
+    //   link: '/',
+    // },
     {
       title:"Profile",
       icon: <CgProfile></CgProfile>,
-      link: '/',
+      link: 'darshanrangegowda19@gmail.com',
     },
     {
       title:"More",
@@ -71,25 +70,29 @@ export default function LeftSideBar() {
 
   return (
     <div className='flex-1 max-w-[450px] max-2xl:max-w-[90px]'>
-    <div className="text-4xl flex flex-col h-screen ">
-      <ul>
+      <div className='flex'>
+        <div className='hidden 2xl:block min-w-36'></div>
+        <div className="text-2xl  flex flex-col h-screen ">
+      <div>
         {sidebarIcons.map((item, index) =>(
-          <li key={index}>
-            <Link className='flex justify-start items-center mx-7 mt-5 hover:bg-gray-600 rounded' href={item.link}>
+          <p key={index}>
+            <Link className='flex justify-start items-center mx-7 mt-5 hover:bg-custom-profile-bg rounded' href={item.link}>
               <span className=''>{item.icon}</span>
-            <samp className='tect-rgb(231, 233, 234) hidden 2xl:block hover:bg-gray-600 rounded-full pl-5'>{item.title}</samp>
+            <samp className='text-custom-white hidden 2xl:block hover:bg-custom-profile-bg rounded-full pl-5'>{item.title}</samp>
             </Link>
             
             
-          </li>
+          </p>
         ))}
         <div className='flex ml-7 mt-5 '>
         <FaPenNib className='mt-4 mr-5'></FaPenNib>
         <button className="hidden 2xl:block bg-blue-500 text-2xl px-8 py-4 rounded-full"> Post</button>
 
         </div>
-      </ul>
+      </div>
 </div>
+      </div>
+   
   </div>
   )
 }

@@ -12,8 +12,9 @@ export interface Tweet {
         content: string,
         image: Image[],
         postId: string,
-        likes: string,
-        views: string,
+        comments: number,
+        likes: number,
+        views: number,
         postedAt: string
 }
 

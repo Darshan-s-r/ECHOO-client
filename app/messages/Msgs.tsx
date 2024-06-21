@@ -4,6 +4,9 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { RiSendPlaneLine } from "react-icons/ri";
 import { SlPicture } from "react-icons/sl";
+import { io } from "socket.io-client";
+
+const socket = io('http://localhost:8080', { autoConnect: false });
 
 interface FileState {
   myFile: string | null;
@@ -15,6 +18,10 @@ export default function Msgs() {
   const [textareaHeight, setTextareaHeight] = useState('auto');
   const [maxHeight, setMaxHeight] = useState(0);
   const [postImage, setPostImage] = useState<FileState>({myFile:""})
+
+  socket.onAny((event, args)=>{
+    console.log(event, args);
+  })
 
   useEffect(() => {
     if (textareaRef.current) {
