@@ -43,7 +43,7 @@ export default function WhoTFcard({ follow }: {follow: follower }) {
             'Content-Type': 'application/json'
           }
         });
-      const { followers, following } = response.data;
+      const { following } = response.data;
       setUser((prevUser) => ({
         ...prevUser,
         following: following,
@@ -61,37 +61,6 @@ export default function WhoTFcard({ follow }: {follow: follower }) {
     }
   }, [setUser]);
 
-  // const handleFollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
-  //   try {
-  //     const token = localStorage.getItem("twitter_cloan_token");
-  //     if (!token) {
-  //       throw new Error("you need to login to proceed");
-  //     }
-  //     const response = await axios.post("http://localhost:8080/follow",
-  //       { follower: user?.email, following: follow.email },
-  //       {
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-  //     const { followers, following } = response.data;
-  //     setUser((prevUser) => ({
-  //       ...prevUser,
-  //       following: following,
-  //     }));
-
-  //     localStorage.setItem('User', JSON.stringify({
-  //       ...user,
-  //       following: following,
-  //     }));
-
-  //     setURfollowing(true);
-  //     console.log('response from /follow');
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, [setUser]);
 
   const handleFollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     try {

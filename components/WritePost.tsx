@@ -1,19 +1,21 @@
 'use client';
-import { rejects } from 'assert';
-import { error } from 'console';
-import { resolve } from 'path';
-import React, { useState, useEffect, useRef, ReactEventHandler } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 import { SlPicture } from "react-icons/sl";
 import axios from 'axios';
 import { IUser } from '@/interface/User';
 import predict_toxicity from '@/mlModel/toxicity_model'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 interface FileState {
   myFile: string | null;
 }
 
 export default function WritePost() {
+  const router = useRouter();
   const [text, setText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [textareaHeight, setTextareaHeight] = useState('auto');
@@ -53,7 +55,7 @@ export default function WritePost() {
     try{
         const token = localStorage.getItem("twitter_cloan_token");
         if(!token){
-          throw new Error("you need to login to proced")
+          router.push("/");
         }
         const responce = await axios.post("http://localhost:8080/post",
         {content:text, image:postImage},
@@ -63,8 +65,7 @@ export default function WritePost() {
             'Content-Type': 'application/json' 
           } 
     });
-    alert('content is clean')
-    console.log("responce for post tweet",responce);
+    toast.success('content is clean');
     }catch(err){
       console.log(err)
     }
@@ -74,7 +75,7 @@ export default function WritePost() {
     e.preventDefault();
     const isToxic:boolean = await predict_toxicity(text);
     if(isToxic){
-      return alert('Toxic content detected You can not post this content')
+     return toast.error('Toxic content detected You can not post this content')
     }
     createPost(text, postImage);
     setText("");
@@ -149,28 +150,3 @@ function convertToBase64(file:File){
 }
 
 
-
-// import React from 'react'
-// import { IoSettingsOutline } from "react-icons/io5";
-
-// export default function WritePost() {
-//   return (
-//     <div className=''>
-//       <div className='flex border-b-2 border-slate-500'>
-//         <button className='text-2xl flex-1 hover:bg-slate-400'>Foryou</button>
-//         <button className='text-2xl flex-1 hover:bg-slate-400'>Following</button>
-//         <button className='text-2xl p-5 hover:bg-slate-400'><IoSettingsOutline></IoSettingsOutline></button>
-//       </div>
-//       {/* --------------------------------- */}
-//       <div className='flex p-y-10 px-5 border-b-2 border-slate-500'>
-//         <img className='w-14 mt-5 h-14 object-cover rounded-full' src='https://pbs.twimg.com/profile_images/1761058966292119552/aqGsGdNE_400x400.jpg' alt='profile image' />
-//         <textarea
-//           typeof='text'
-//           placeholder='What is happening?'
-//           maxLength={280}
-//           className='border-none border-0 text-3xl pl-5 pt-5 bg-black  w-full'
-//         />
-//       </div>
-//     </div>
-//   )
-// }

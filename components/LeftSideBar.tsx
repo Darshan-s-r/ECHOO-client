@@ -59,7 +59,7 @@ export default function LeftSideBar() {
     {
       title:"Profile",
       icon: <CgProfile></CgProfile>,
-      link: 'darshanrangegowda19@gmail.com',
+      link: '/',
     },
     {
       title:"More",

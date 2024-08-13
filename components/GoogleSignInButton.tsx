@@ -4,14 +4,14 @@ import { useCallback } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function GoogleSignInButton() {
   const { user, setUser } = useUserContext();
   const router = useRouter();
   const handleLoginWithUser = useCallback(async (credentialResponse: CredentialResponse) => {
     try {
-      alert("Clicked sign-in with Google");
-      console.log("This is credentials:", credentialResponse);
   
       if (!credentialResponse || !credentialResponse.credential) {
         console.error("Invalid credential response", credentialResponse);
@@ -31,14 +31,14 @@ export default function GoogleSignInButton() {
       router.push("/home");
     } catch (err) {
       console.error("Error from the server:", err);
-      alert("Failed to log in. Please try again.");
+      toast.error("Failed to log in. Please try again.")
     }
   }, []);
 
   return (
 
-  <div className='p-5  rounded-lg bg-slate-600'>
-    <h1 className='text-2xl'>Log-In to echooooo</h1>
+  <div className='mt-96 ml-16'>
+    <h1 className='text-2xl pb-4'>LogIn to echo</h1>
     <GoogleLogin onSuccess={handleLoginWithUser} />
      <p>{user?.email}</p>
   </div>

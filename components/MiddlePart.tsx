@@ -4,19 +4,19 @@ import WritePost from './WritePost';
 import Posts from './Posts';
 import axios from 'axios';
 import { Tweet } from '@/interface/Tweets';
+import { useRouter } from 'next/navigation';
 
 export default function MiddlePart() {
   const [tweets, setTweets] = useState<Tweet[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTweets = async () => {
       try {
         if (typeof window !== 'undefined') {
-          console.log("we are in client")
           const token = localStorage.getItem("twitter_cloan_token");
           if (!token) {
-            console.log("token not found in local storage");
-            throw new Error("You need to login to proceed");
+            router.push("/");
           }
           const response = await axios.get("http://localhost:8080/tweets", {
             headers: {
@@ -24,10 +24,8 @@ export default function MiddlePart() {
               'Content-Type': 'application/json'
             }
           });
-          console.log("responce for tweets",response)
           setTweets(response.data);
         }
-        console.log("we are in server")
       } catch (error) {
         console.error("Error fetching tweets:", error);
       }

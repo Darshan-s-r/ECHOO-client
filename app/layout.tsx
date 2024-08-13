@@ -3,7 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { UserProvider } from "@/context/UserContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ["latin"] });
+import LeftSideBar from "@/components/LeftSideBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,11 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <GoogleOAuthProvider clientId="914659849053-l1u7c0rcpl9hojpjig5qtaum03ev9if0.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId = {process.env.GOOGLE_CLIENT_ID}> 
         <UserProvider>
         {children}
         </UserProvider>
         </GoogleOAuthProvider>
+        <ToastContainer />
         </body>
     </html>
   );

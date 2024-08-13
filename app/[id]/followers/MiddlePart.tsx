@@ -6,6 +6,7 @@ import Card from '../../../components/Card';
 import axios from 'axios';
 import { follower } from '@/interface/Followers';
 import { useUserContext } from '@/context/UserContext';
+import { useRouter } from 'next/navigation';
 
 interface HisDetail {
   firstName: string;
@@ -13,6 +14,7 @@ interface HisDetail {
 }
 
 export default function MiddlePart({ id }: { id: string }) {
+  const router = useRouter();
   const [followers, setFollowers] = useState<follower[]>([]);
   const [hisDetail, setHisDetail] = useState<HisDetail | null>(null);
   const { user, setUser } = useUserContext();
@@ -21,11 +23,9 @@ export default function MiddlePart({ id }: { id: string }) {
   const fetchFollowers = useCallback(async () => {
     try {
       if (typeof window !== 'undefined') {
-        console.log("we are in client");
         const token = localStorage.getItem("twitter_cloan_token");
         if (!token) {
-          console.log("token not found in local storage");
-          throw new Error("You need to login to proceed");
+          router.push("/");
         }
         const response = await axios.get(`http://localhost:8080/followers/user?id=${id}`, {
           headers: {

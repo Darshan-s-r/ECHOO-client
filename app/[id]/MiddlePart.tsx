@@ -10,6 +10,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { TiAttachmentOutline } from "react-icons/ti";
 import EditProfilePopup from '@/components/EditProfilePopUp';
 import { Tweet } from '@/interface/Tweets';
+import { useRouter } from 'next/navigation';
 
 interface profileMenu {
   title: string,
@@ -17,6 +18,7 @@ interface profileMenu {
 }
 
 export default function MiddlePart({ id }: { id: string }) {
+  const router = useRouter();
   const { user, setUser } = useUserContext();
   const [profileUser, setProfileUser] = useState<ProfileUser>();
   const [hisProfile, setHisProfile] = useState(false);
@@ -35,11 +37,9 @@ export default function MiddlePart({ id }: { id: string }) {
   const fetchUser = useCallback(async () => {
     try {
       if (typeof window !== 'undefined') {
-        console.log("we are in client");
         const token = localStorage.getItem("twitter_cloan_token");
         if (!token) {
-          console.log("token not found in local storage");
-          throw new Error("You need to login to proceed");
+          router.push("/");
         }
         const response = await axios.get(`http://localhost:8080/user?id=${id}`, {
           headers: {
@@ -51,8 +51,6 @@ export default function MiddlePart({ id }: { id: string }) {
           setUserNotFound(true);
           return;
         }
-
-        console.log("response /user", response);
         setProfileUser(response.data);
 
         const localuser = localStorage.getItem('User');
@@ -89,7 +87,7 @@ export default function MiddlePart({ id }: { id: string }) {
     try {
       const token = localStorage.getItem("twitter_cloan_token");
       if (!token) {
-        throw new Error("you need to login to proceed");
+        router.push("/");
       }
       const response = await axios.post("http://localhost:8080/un_follow",
         { follower: user?.email, following: profileUser?.email },
@@ -99,17 +97,17 @@ export default function MiddlePart({ id }: { id: string }) {
             'Content-Type': 'application/json'
           }
         });
-      const { followers, following } = response.data;
+      const { following } = response.data;
       setUser((prevUser) => ({
         ...prevUser,
         following: following,
       }));
 
       localStorage.setItem('User', JSON.stringify({
-        ...user,
-        following: following,
+        user
       }));
-
+      console.log(localStorage.getItem('User'), 'user from local storage');
+      console.log("user ofter unfollow",user)
       setIsFollowing(false);
       console.log('response from /follow');
     } catch (err) {
@@ -121,7 +119,7 @@ export default function MiddlePart({ id }: { id: string }) {
     try {
       const token = localStorage.getItem("twitter_cloan_token");
       if (!token) {
-        throw new Error("you need to login to proceed");
+        router.push("/");
       }
       const response = await axios.post("http://localhost:8080/follow",
         { follower: user?.email, following: profileUser?.email },
@@ -135,23 +133,22 @@ export default function MiddlePart({ id }: { id: string }) {
           setUserNotFound(true);
           return;
         }
-      const { followers, following } = response.data;
+      const { following } = response.data;
       setUser((prevUser) => ({
         ...prevUser,
-        following: followers,
+        following: following,
       }));
 
       localStorage.setItem('User', JSON.stringify({
         ...user,
-        following: followers,
+        following: following,
       }));
 
       setProfileUser((prevProfileUser) => ({
         ...prevProfileUser,
-        followers : following,
+        following : following,
       }));
       setIsFollowing(true);
-      console.log('response from /follow');
     } catch (err) {
       console.log(err);
     }

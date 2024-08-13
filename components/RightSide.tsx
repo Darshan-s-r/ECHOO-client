@@ -4,17 +4,17 @@ import axios from 'axios';
 import { follower } from '@/interface/Followers';
 import { CiSearch } from "react-icons/ci";
 import WhoTFcard from './WhoTFcard';
+import { useRouter } from 'next/navigation';
 
 export default function RightSide() {
+  const router = useRouter();
   const [userToFollow, setUserToFollow] = useState<follower[]>([])
   const fetchWhoToFollow = useCallback(async () => {
     try {
       if (typeof window !== 'undefined') {
-        console.log("we are in client");
         const token = localStorage.getItem("twitter_cloan_token");
         if (!token) {
-          console.log("token not found in local storage");
-          throw new Error("You need to login to proceed");
+          router.push("/");
         }
         const response = await axios.get(`http://localhost:8080/who_to_follow`, {
           headers: {

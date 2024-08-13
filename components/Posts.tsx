@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { TbBrandMessenger } from "react-icons/tb";
-import { BiRepost } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { IoStatsChartOutline } from "react-icons/io5";
 import { CiBookmark } from "react-icons/ci";
@@ -10,12 +9,14 @@ import { Tweet } from '@/interface/Tweets';
 import Link from 'next/link';
 import AddComments from './AddComments';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface PostsProps {
   Tweet: Tweet;
 }
 
   const Posts: React.FC<PostsProps>  = ({Tweet})=>{
+    const router = useRouter();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [tweet, setTweet] = useState<Tweet>(Tweet)
 
@@ -31,7 +32,7 @@ interface PostsProps {
         try {
           const token = localStorage.getItem("twitter_cloan_token");
           if (!token) {
-            throw new Error("You need to login to proceed");
+            router.push("/");
           }
           const response = await axios.post(
             "http://localhost:8080/view",
@@ -54,7 +55,6 @@ interface PostsProps {
           }
         } catch (err) {
           console.error('Error incrementing view:', err);
-          alert('Failed to view post');
         }
       };
   
@@ -67,7 +67,7 @@ interface PostsProps {
       try {
         const token = localStorage.getItem("twitter_cloan_token");
         if (!token) {
-          throw new Error("You need to login to proceed");
+          router.push("/");
         }
 
         const response = await axios.post(
@@ -123,10 +123,6 @@ interface PostsProps {
             <span className='text-custom-grey ml-3 text-xl'>{tweet.comments}</span>
            
           </div>
-          {/* <div className='flex text-2xl text-custom-grey'>
-            <BiRepost className=' hover:bg-blue-300 rounded-full'></BiRepost>
-          <span className='ml-3 text-xl'>33</span>
-          </div> */}
           <button onClick={handleLike} className='flex text-2xl text-custom-grey'>
             <CiHeart className=' hover:bg-blue-300 rounded-full'></CiHeart>
                       <span className='ml-3 text-xl'>{tweet.likes}</span>

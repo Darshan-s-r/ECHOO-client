@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+ECHOO - A Safe and Positive Social Media Platform
+Overview
+ECHOO is a social media platform designed to reduce online violence and promote socially positive content. It allows users to log in with their Google account, view and interact with posts, follow other users, and share content. The standout feature of ECHOO is its AI-driven content moderation system that detects inappropriate content before it is posted, ensuring a safe and respectful environment.
 
-## Getting Started
+Features
+User Authentication: Login with Google account.
+Posting & Interaction: Create posts, like, comment, and follow users.
+Content Moderation: AI-based inappropriate content detection using '@tensorflow-models/toxicity'.
+Image Upload: Share images with posts.
 
-First, run the development server:
+Motivation
+The motivation behind ECHOO is to create a platform where users can freely express themselves while maintaining a respectful and positive community. The AI model aims to prevent the spread of harmful content, promoting social good.
 
-```bash
+Tech Stack
+Frontend: Next.js
+Backend: Node.js, Express.js  (link: https://github.com/Darshan-s-r/ECHOO-server)
+Database: MongoDB
+AI Model: '@tensorflow-models/toxicity'
+
+Setup Instructions
+Clone the repository:
+bash
+Copy code
+git clone https://github.com/Darshan-s-r/ECHOO-client.git
+Install dependencies:
+bash
+Copy code
+cd ECHOOsocial
+npm install
+Set up environment variables:
+Create a .env file in the root directory and add the following:
+makefile
+Copy code
+MONGO_URI=your_mongo_db_uri  (for Backend code)
+JWT_SECRET=your_jwt_secret  (for Backend code)
+GOOGLE_CLIENT_ID=your_google_client_id
+Run the application:
+bash
+Copy code
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Access the application:
+Open http://localhost:3000 in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Usage
+Once the application is running, users can:
+Sign in using their Google account.
+View, like, and comment on posts.
+Create new posts with text and images.
+Follow and interact with other users.
+Enjoy a safe and positive environment thanks to the AI content moderation.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Contributing
+Contributions are welcome! Please fork the repository and create a pull request for any feature additions, bug fixes, or improvements.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contact
+For any questions or support, feel free to reach out to me via darshanrangegowda19@gmail.com.

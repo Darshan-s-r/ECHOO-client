@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 interface SearchResult {
   email: string;
@@ -14,12 +15,13 @@ interface SeachCardProps {
 }
 
 export default function SeachCard({ user, helper, receiver }: SeachCardProps) {
+  const router = useRouter();
   async function handleOnClick() {
     console.log('on click visited from /searchCard');
     try {
       const token = localStorage.getItem("twitter_cloan_token");
       if (!token) {
-        throw new Error("You need to log in to proceed");
+        router.push("/");
       }
 
       const response = await axios.post(

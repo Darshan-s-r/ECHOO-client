@@ -4,6 +4,7 @@ import { CiSearch } from 'react-icons/ci'
 import UserMSGCard from './UserMSGCard'
 import axios from 'axios';
 import SearchCard from './SearchCard';
+import { useRouter } from 'next/navigation';
 
 interface searchResult{
   email:string,
@@ -12,6 +13,7 @@ interface searchResult{
 }
 
 export default function Middle() {
+  const router = useRouter();
   const[input, setInput] = useState('');
   const[searchActive, setSearchActive] = useState(false);
   const[searchResult, setSearchResult] = useState<searchResult[]>([]);
@@ -21,8 +23,7 @@ async function fetchReceivers(){
     try{
       const token = localStorage.getItem("twitter_cloan_token");
       if(!token){
-        throw new Error("you need to login to proced")
-      }
+        router.push("/");      }
       const responce = await axios.get('http://localhost:8080/messages',
       {
         headers:{
@@ -30,8 +31,6 @@ async function fetchReceivers(){
           'Content-Type': 'application/json' 
         } 
   });
-  setReceivers(responce.data);
-  console.log("reponce from receivvers array",responce.data);
   }catch(err){
     console.log(err)
   }
@@ -53,8 +52,7 @@ async function fetchReceivers(){
     try{
       const token = localStorage.getItem("twitter_cloan_token");
       if(!token){
-        throw new Error("you need to login to proced")
-      }
+        router.push("/");      }
       const responce = await axios.get(`http://localhost:8080/searchUser/user?string=${newValue}`,
       {
         headers:{
@@ -63,7 +61,6 @@ async function fetchReceivers(){
         } 
   });
   setSearchResult(responce.data);
-  console.log("responce for post tweet",responce);
   }catch(err){
     console.log(err)
   }

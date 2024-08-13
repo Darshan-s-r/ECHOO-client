@@ -3,8 +3,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { follower } from '@/interface/Followers';
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-export default function Card({ follow }: {follow: follower }) {
+export default function Card({ follow }: { follow: follower }) {
+  const router = useRouter();
   const [URfollowing, setURfollowing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { user, setUser } = useUserContext();
@@ -28,11 +30,11 @@ export default function Card({ follow }: {follow: follower }) {
     setIsHovered(false);
   };
 
-  const handleUnfollow = useCallback(async(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+  const handleUnfollow = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     try {
       const token = localStorage.getItem("twitter_cloan_token");
       if (!token) {
-        throw new Error("you need to login to proceed");
+        router.push("/");
       }
       const response = await axios.post("http://localhost:8080/un_follow",
         { follower: user?.email, following: follow.email },
@@ -42,19 +44,17 @@ export default function Card({ follow }: {follow: follower }) {
             'Content-Type': 'application/json'
           }
         });
-      const { followers, following } = response.data;
-      setUser((prevUser) => ({
-        ...prevUser,
-        following: following,
-      }));
-
-      localStorage.setItem('User', JSON.stringify({
+      const { following } = response.data;
+      const updatedUser = {
         ...user,
         following: following,
-      }));
+      };
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      setUser(updatedUser);
+  
+      localStorage.setItem('User', JSON.stringify(updatedUser));
 
       setURfollowing(false);
-      console.log('response from /follow');
     } catch (err) {
       console.log(err);
     }
@@ -74,7 +74,7 @@ export default function Card({ follow }: {follow: follower }) {
             'Content-Type': 'application/json'
           }
         });
-      const { followers, following } = response.data;
+      const { following } = response.data;
       setUser((prevUser) => ({
         ...prevUser,
         following: following,
@@ -86,7 +86,6 @@ export default function Card({ follow }: {follow: follower }) {
       }));
 
       setURfollowing(true);
-      console.log('response from /follow');
     } catch (err) {
       console.log(err);
     }
@@ -94,36 +93,35 @@ export default function Card({ follow }: {follow: follower }) {
 
   return (
     <>
-     <div className='flex px-5'>
-           <img className='w-14 mt-5 h-14 object-cover rounded-full' src={follow?.profileImageURL} alt='' />
-           <p className='mt-5 ml-5 text-xl text-custom-white font-bold hover:underline'>{follow?.firstName}</p>
-           </div>
-           <div className='flex -mt-8 ml-16'>
-           <p className='ml-8 text-xl text-custom-grey'>@{follow?.email?.split('@')[0]}</p>
-           {
-        follow?.email !== user?.email && (
+      <div className='flex px-5'>
+        <img className='w-14 mt-5 h-14 object-cover rounded-full' src={follow?.profileImageURL} alt='' />
+        <p className='mt-5 ml-5 text-xl text-custom-white font-bold hover:underline'>{follow?.firstName}</p>
+      </div>
+      <div className='flex -mt-8 ml-16'>
+        <p className='ml-8 text-xl text-custom-grey'>@{follow?.email?.split('@')[0]}</p>
+        {
           URfollowing ? (
-            <button 
-              onClick={handleUnfollow} 
-              onMouseEnter={handleMouseEnter} 
-              onMouseLeave={handleMouseLeave} 
+            <button
+              onClick={handleUnfollow}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               className={`ml-auto mr-5 -mt-4 text-custom-grey border px-4 py-2 border-custom-profile-bg text-xl rounded-3xl ${isHovered ? 'bg-custom-red-bg text-custom-red border border-custom-red-border' : ''}`}
             >
               {isHovered ? 'UnFollow' : 'Following'}
             </button>
           ) : (
-            <button 
-              onClick={handleFollow} 
+            <button
+              onClick={handleFollow}
               className='ml-auto mr-5 -mt-4 text-custom-grey border px-4 py-2 border-custom-profile-bg text-xl rounded-3xl bg-custom-white'
             >
               Follow
             </button>
           )
-        )
-      }
-        
-           </div>
-           <p className='ml-24 text-xl text-custom-white mt-1 mr-5'>{follow?.bio}</p>
-           </>
+
+        }
+
+      </div>
+      <p className='ml-24 text-xl text-custom-white mt-1 mr-5'>{follow?.bio}</p>
+    </>
   );
 }
